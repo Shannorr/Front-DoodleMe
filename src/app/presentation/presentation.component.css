@@ -1,0 +1,24 @@
+div.wrapper{display:block; width:960px; margin:0 auto; padding:0; text-align:left;}
+.row2{color:#979797; background-color:#ffffff;}
+
+.feature{
+  color:rgb(0, 0, 0);
+  font-weight: bold;
+}
+.under{
+  text-decoration: underline;
+}
+.titre{
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.8cm;
+  color:royalblue;
+}
+
+.centrer {
+  justify-content: center;
+}
+
+
+
+

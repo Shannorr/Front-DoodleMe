@@ -1,0 +1,67 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle + " : " + event?.nom}}
+  </div>
+  <div class='card-body' *ngIf='event'>
+    <div class='row'>
+      <div class='col-md-8'>
+        <div class='row'>
+          <div class='col-md-4'>Nom de l'événement :</div>
+          <div class='col-md-8'>{{event.nom}}</div>
+        </div>
+        <div class='row'>
+          <div class='col-md-4'>Description :</div>
+          <div class='col-md-8'>{{event.description}}</div>
+        </div>
+        <div class='row'>
+          <div class='col-md-4'>Créateur :</div>
+          <div class='col-md-8 important'>{{event.createur.nomUser}}</div>
+        </div>
+        <div class='row'>
+          <div class='col-md-4'>Cloturé :</div>
+          <div class='col-md-8'>{{event.cloture ? "Oui" : "Non"}}</div>
+        </div>
+      </div>
+      <div class='col-md-4 alignLeft' *ngIf="!event.cloture">
+        <div class='row'>
+          <div class='col-md'>Proposer un nouveau créneau :</div>
+          <div class="input-group mb-3">
+            <input type="datetime-local" [(ngModel)]="creneauNew">
+          </div>
+        </div>
+        <button style="width: 185px" (click)="creerNewCreneau()">Proposer</button>
+      </div>
+    </div>
+    <br>
+    <div class="card-header">{{event.cloture ? "Créneau définitif" : "Les créneaux actuels"}}</div>
+    <div class="table-responsive">
+      <table class="table" *ngIf="creneauxEvent.length">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Heure</th>
+          <th>Nombres de participants</th>
+          <th *ngIf="!event.cloture">Répondre</th>
+          <th *ngIf="!event.cloture">Préféré</th>
+          <th *ngIf="event.cloture">Choix</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let creneau of creneauxEvent ; let index = index">
+          <td>{{creneau.date}}</td>
+          <td>{{creneau.heureDebut}}</td>
+          <td>{{creneau.nbRepPositive}}</td>
+          <td *ngIf="!creneau.evenement.cloture"><button class="espace" (click)="repondreOui(creneau, index)">✔</button><button (click)="repondreNon(creneau)">❌</button></td>
+          <td *ngIf="creneauPref?.id==creneau.id && !creneau.evenement.cloture"><button (click)="cloturer(creneau)" routerLink="/evenements">Clôturer</button></td>
+          <td *ngIf="event.cloture && creneau.id == creneauPref?.id">✔</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-outline-secondary" style="width:80px" routerLink="/evenements">
+      <i class="fa fa-chevron-left"></i>Retour
+    </button>
+  </div>
+</div>

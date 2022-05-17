@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">{{pageTitle}}</div>
+  <div class="card-body">
+    <div class="row justify-content-center">
+      <div class="col-xl-6">
+        <label class="gras">Nom de l'événement</label>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="......" [(ngModel)]="nom">
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-xl-6">
+        <label class="gras">Description de l'événement</label>
+        <div class="input-group mb-3">
+          <textarea rows="4" class="form-control" placeholder="......" [(ngModel)]="description"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-xl-6">
+        <label class="gras">Créneaux de l'événement</label>
+        <div class="input-group mb-3">
+          <input type="datetime-local" [(ngModel)]="creneau1">
+        </div>
+        <div class="input-group mb-3">
+          <input type="datetime-local" [(ngModel)]="creneau2">
+        </div>
+      </div>
+    </div><br>
+    <div class="row justify-content-center">
+        <button style="width: 250px" routerLink="/evenements" (click)="creation()">Créer votre événement</button>
+    </div>
+  </div>
+</div>
