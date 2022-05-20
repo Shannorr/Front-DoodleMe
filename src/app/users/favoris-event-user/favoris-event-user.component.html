@@ -12,16 +12,16 @@
           <th>Description</th>
           <th>Créateur</th>
           <th>Clotûré</th>
-          <th>Détails</th>
+          <th>Supprimer des favoris</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let favoris of mesFavoris">
           <td><a [routerLink]="['/evenements', favoris.event.id]">{{favoris.event.nom}}</a></td>
           <td>{{favoris.event.description | lowercase}}</td>
-          <td>{{favoris.personne.nomUser}}</td>
+          <td><a [routerLink]="['/users', favoris.event.createur.id]">{{favoris.personne.nomUser}}</a></td>
           <td>{{favoris.event.cloture ? "Oui" : "Non"}}</td>
-          <td><button [routerLink]="['/evenements', favoris.event.id]">Voir</button></td>
+          <td><button style="margin-left: 50px" [routerLink]="['/evenements', favoris.event.id]">⭐</button></td>
         </tr>
         </tbody>
       </table>

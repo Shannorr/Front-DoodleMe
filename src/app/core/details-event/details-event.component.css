@@ -5,3 +5,41 @@
 .important{
   font-weight: bold;
 }
+
+.bouton{
+  border-style : none;
+  border-left-style : none;
+  border-radius: 5px;
+}
+
+.button {
+  margin-left: -25px;
+  padding: 0.1rem 2rem;
+  background: white;
+  text-align: center;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 400;
+  position: relative;
+  will-change: transform; }
+
+.btn-3 {
+  font-family: Serif;
+  border: none;
+  letter-spacing: .05rem;
+  position: relative;
+  background: white;
+  color: #1161ee;
+  overflow: hidden;
+  transition: .3s ease-in-out;
+  border-radius: .3rem;
+  z-index: 1;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3), 0 5px 5px rgba(0, 0, 0, 0.22); }
+.btn-3:hover {
+  box-shadow: 0 5px 5px #1161ee, 0 5px 5px black;
+  transform: scale(0.95); }
+
+
+.boutonSp{
+  border-radius: 5px;
+}

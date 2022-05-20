@@ -1,11 +1,12 @@
 <div class="card">
   <div class="card-header">{{pageTitle}}</div>
   <div class="card-body">
-    <div>Filtrer par :
-        <input type="text" [(ngModel)]="listFilter"/>
-        <button class="addEvent" routerLink="creation">Créer un événement</button>
+    <div class="marge">Filtrer par :
+      <input type="text" [(ngModel)]="listFilter"/>
+      <div class="flex-1 addEvent">
+        <button class="button button-mat btn--5" routerLink="creation"><div class="psuedo-text">Créer un événement</div></button>
       </div>
-    <br>
+    </div>
     <div class="table-responsive">
       <table class="table" *ngIf="evenements.length">
         <thead>
@@ -23,11 +24,13 @@
           <td>{{event.description | lowercase}}</td>
           <td><a [routerLink]="['/users', event.createur.id]">{{event.createur.nomUser}}</a></td>
           <td>{{event.cloture ? "Oui" : "Non"}}</td>
-          <td><button style="margin-left: 50px" routerLink="/evenements" (click)="addFavoris(event)">⭐</button></td>
+          <td><button class="boutonSp" style="margin-left: 50px" routerLink="/evenements" (click)="addFavoris(event)">⭐</button></td>
         </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
+
 

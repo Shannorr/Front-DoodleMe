@@ -131,3 +131,4 @@ export class PartageData {
     return this.favoris.length;
   }
 }
+

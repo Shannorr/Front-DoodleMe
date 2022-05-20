@@ -1,3 +1,69 @@
 .addEvent{
   float:right;
 }
+
+.boutonSp{
+  border-style : none;
+  border-left-style : none;
+  border-radius: 5px;
+}
+
+.marge{
+  margin-bottom: 51px;
+}
+
+.psuedo-text {
+  color: #1161ee;
+  position: relative;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: inline;
+  height: auto;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: .25s ease-in;
+  transition-delay: .1s; }
+
+.flex-1 {
+  flex: 1;
+  min-width: 250px;
+  margin: 0 auto 50px; }
+
+.button {
+  padding: 0.2rem 2rem;
+  background: white;
+  text-align: center;
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 400;
+  position: relative;
+  will-change: transform; }
+
+.button-mat {
+  color: #1161ee;
+  border: 0px transparent;
+  border-radius: .3rem;
+  transition: .3s ease-in-out;
+  transition-delay: .35s;
+  overflow: hidden; }
+.button-mat:before {
+  content: '';
+  display: block;
+  background: #1161ee;
+  position: absolute;
+  width: 200%;
+  height: 500%;
+  border-radius: 100%;
+  transition: 0.36s cubic-bezier(0.4, 0, 1, 1); }
+.button-mat:hover .psuedo-text {
+  color: white; }
+.button-mat:hover {
+  color: transparent; }
+.btn--5 {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
+.btn--5:before {
+  transform: translate(-120%, -50%) translateZ(0); }
+.btn--5:hover:before {
+  transform: translate(-45%, -34%) translateZ(0); }
+
