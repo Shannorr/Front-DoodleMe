@@ -23,7 +23,7 @@ export class AccueilComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEvents();
-    this.donnesService.addPersonne({id: this.donnesService.getTaillePersonne(), nom: "Jacob", prenom: "Nicolas", nomUser: "nicojp"})
+    this.donnesService.addPersonne({id: this.donnesService.getTaillePersonne(), lastname: "Jacob", firstname: "Nicolas", username: "nicojp"})
   }
 
   getEvents(): void {

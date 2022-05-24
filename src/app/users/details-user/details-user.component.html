@@ -1,21 +1,21 @@
 <div class="card">
   <div class="card-header">
-    {{pageTitle + " : " + personne?.nomUser}}
+    {{pageTitle + " : " + personne?.username}}
   </div>
   <div class='card-body' *ngIf='personne'>
     <div class='row'>
       <div class='col-md-8'>
         <div class='row'>
           <div class='col-md-4'>Nom utilisateur :</div>
-          <div class='col-md-8'>{{personne.nomUser}}</div>
+          <div class='col-md-8'>{{personne.username}}</div>
         </div>
         <div class='row'>
           <div class='col-md-4'>Nom :</div>
-          <div class='col-md-8'>{{personne.nom}}</div>
+          <div class='col-md-8'>{{personne.lastname}}</div>
         </div>
         <div class='row'>
           <div class='col-md-4'>Prénom :</div>
-          <div class='col-md-8'>{{personne.prenom}}</div>
+          <div class='col-md-8'>{{personne.firstname}}</div>
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
         <tr *ngFor="let event of eventParticipe">
           <td><a [routerLink]="['/evenements', event.creneau.evenement.id]">{{event.creneau.evenement.nom}}</a></td>
           <td>{{event.creneau.evenement.description | lowercase}}</td>
-          <td><a [routerLink]="['/users', event.creneau.evenement.createur.id]">{{event.creneau.evenement.createur.nomUser}}</a></td>
+          <td><a [routerLink]="['/users', event.creneau.evenement.createur.id]">{{event.creneau.evenement.createur.username}}</a></td>
           <td>{{event.creneau.evenement.cloture ? "Oui" : "Non"}}</td>
           <td>{{event.reponse ? "✔" : "❌"}}</td>
         </tr>

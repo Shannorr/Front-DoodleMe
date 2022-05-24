@@ -3,46 +3,96 @@
     <p class="esp">DodleMe</p><br>
     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Se connecter</label>
     <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Créer son compte</label>
+
     <div class="login-form">
-      <div class="sign-in-htm">
-        <div class="group">
-          <label for="userIn" class="label">Nom utilisateur</label>
-          <input id="userIn" type="text" class="input">
+      <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmitLogin()" #f="ngForm" novalidate>
+        <div class="sign-in-htm">
+          <div class="group">
+            <label for="userIn" class="label">Nom utilisateur</label>
+            <input id="userIn" type="text" class="input" name="username" [(ngModel)]="formLogin.username" required #username="ngModel" >
+            <div class="text-info" role="alert" *ngIf="username.errors && f.submitted">
+              Username is required!
+            </div>
+          </div>
+          <div class="group">
+            <label for="passIn" class="label">Mot de passe</label> 
+            <input id="passIn" type="password" class="input" data-type="password" name="password" [(ngModel)]="formLogin.password" required minlength="6" #password="ngModel">
+            <div class="text-info" role="alert"  *ngIf="password.errors && f.submitted">
+              <div *ngIf="password.errors?.['required']">Password is required</div>
+            </div>
+          </div>
+          <div class="group">
+            <input type="submit" class="button" value="Connexion" >
+          </div>
+          <div class="hr"></div>
+          <p class="accroche">DodleMe, l'application n°1 pour l'organisation d'événements entre amis 🎉😎</p>
         </div>
-        <div class="group">
-          <label for="passIn" class="label">Mot de passe</label>
-          <input id="passIn" type="password" class="input" data-type="password">
-        </div>
-        <div class="group">
-          <input type="submit" class="button" value="Connexion" routerLink="/evenements">
-        </div>
-        <div class="hr"></div>
-        <p class="accroche">DodleMe, l'application n°1 pour l'organisation d'événements entre amis 🎉😎</p>
-      </div>
+      </form>
+
+
       <div class="sign-up-htm">
-        <div class="group">
-          <label for="userUp" class="label">Nom utilisateur</label>
-          <input id="userUp" type="text" class="input">
-        </div>
-        <div class="group">
-          <label for="nom" class="label">Nom</label>
-          <input id="nom" type="text" class="input">
-        </div>
-        <div class="group">
-          <label for="prenom" class="label">Prénom</label>
-          <input id="prenom" type="text" class="input">
-        </div>
-        <div class="group">
-          <label for="passUp" class="label">Mot de passe</label>
-          <input id="passUp" type="password" class="input" data-type="password">
-        </div>
-        <div class="group">
-          <input type="submit" class="button" value="Créer son compte" routerLink="/evenements">
-        </div>
-        <div class="hr"></div>
-        <div class="foot-lnk">
-          <label for="tab-1">Déja membre?</label>
-        </div>
+        <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmitRegister()" #f="ngForm" novalidate>
+          <div class="group">
+            <label for="username" class="label">Nom utilisateur</label>
+            <input id="username" type="text" class="input" minlength="3" maxlength="20" name="username" [(ngModel)]="formRegister.username" #username="ngModel" required>
+            <div class="text-info" *ngIf="username.errors && f.submitted">
+              <div *ngIf="username.errors?.['required']">*Username is required</div>
+              <div *ngIf="username.errors?.['minlength']">
+                *Username must be at least 3 characters
+              </div>
+              <div *ngIf="username.errors?.['maxlength']">
+                *Username must be at most 20 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="group">
+            <label for="nom" class="label">Nom</label>
+            <input id="nom" type="text" class="input" name="lastname" minlength="3" maxlength="20" [(ngModel)]="formRegister.lastname" #lastname="ngModel" required>
+            <div class="text-info" *ngIf="lastname.errors && f.submitted">
+              <div *ngIf="lastname.errors?.['required']">*Lastname is required</div>
+              <div *ngIf="lastname.errors?.['minlength']">
+                *Lastname must be at least 3 characters
+              </div>
+              <div *ngIf="lastname.errors?.['maxlength']">
+                *Lastname must be at most 20 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="group">
+            <label for="prenom" class="label">Prénom</label>
+            <input id="prenom" type="text" class="input" name="firstname" minlength="3" maxlength="20" #firstname="ngModel" [(ngModel)]="formRegister.firstname" required>
+            <div class="text-info" *ngIf="firstname.errors && f.submitted">
+              <div *ngIf="firstname.errors?.['required']">*Firstname is required</div>
+              <div *ngIf="firstname.errors?.['minlength']">
+                *Firstname must be at least 3 characters
+              </div>
+              <div *ngIf="firstname.errors?.['maxlength']">
+                *Firstname must be at most 20 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="group">
+            <label for="passUp" class="label">Mot de passe</label>
+            <input id="passUp" type="password" class="input" minlength="6" name="password" data-type="password" [(ngModel)]="formRegister.password" #password="ngModel" required>
+            <div class="text-info" *ngIf="password.errors && f.submitted">
+              <div *ngIf="password.errors?.['required']">Password is required</div>
+              <div *ngIf="password.errors?.['minlength']">
+                Password must be at least 6 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="group">
+            <input type="submit" class="button" value="Créer son compte">
+          </div>
+          <div class="hr"></div>
+          <div class="foot-lnk">
+            <label for="tab-1">Déja membre?</label>
+          </div>
+        </form>
       </div>
     </div>
   </div>

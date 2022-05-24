@@ -12,6 +12,7 @@ const routes: Routes = [
   {path: 'connexion', component: LoginComponent},
   {path: 'presentation', component: PresentationComponent},
   {path: 'evenements', component: AccueilComponent},
+  {path: 'users', component: DetailsUserComponent},
   {path: 'users/:idU', component: DetailsUserComponent},
   {path: 'users/:idU/favoris', component: FavorisEventUserComponent},
   {path: 'evenements/creation', component: CreerEventComponent},

@@ -22,7 +22,7 @@
         <tr *ngFor="let event of filteredEvents">
           <td><a [routerLink]="['/evenements', event.id]">{{event.nom}}</a></td>
           <td>{{event.description | lowercase}}</td>
-          <td><a [routerLink]="['/users', event.createur.id]">{{event.createur.nomUser}}</a></td>
+          <td><a [routerLink]="['/users', event.createur.id]">{{event.createur.username}}</a></td>
           <td>{{event.cloture ? "Oui" : "Non"}}</td>
           <td><button class="boutonSp" style="margin-left: 50px" routerLink="/evenements" (click)="addFavoris(event)">⭐</button></td>
         </tr>

@@ -1,6 +1,6 @@
 export interface IPersonne {
   id: number;
-  nomUser: string;
-  nom: string;
-  prenom: string;
+  username: string;
+  lastname: string;
+  firstname: string;
 }
