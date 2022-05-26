@@ -4,6 +4,7 @@ import {IEvenement} from "../shared/evenement";
 // @ts-ignore
 import {Head, Observable} from "rxjs";
 import {TokenStorageService} from "./token-storage.service";
+import { bdResponseEvent } from '../shared/bd';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class bdDataService {
 
   constructor(private httpClient: HttpClient, private tokenStorageService: TokenStorageService) { }
 
-  public recupererEvent(): Observable<IEvenement[]> {
-    return this.httpClient.get<IEvenement[]>(this.url + '/events', this.httpOptions);
+  public recupererEvent(): Observable<bdResponseEvent> {
+    return this.httpClient.get<bdResponseEvent>(this.url + '/events', this.httpOptions);
   }
 
 }

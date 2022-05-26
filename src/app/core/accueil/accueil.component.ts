@@ -4,6 +4,7 @@ import {PartageData} from "../../shared/bdService";
 import {ICreneau} from "../../shared/creneau";
 import {bdDataService} from "../../services/bd.service";
 import {TokenStorageService} from "../../services/token-storage.service";
+import { bdResponseEvent } from 'src/app/shared/bd';
 
 @Component({
   selector: 'app-accueil',
@@ -25,8 +26,14 @@ export class AccueilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataBD.recupererEvent().subscribe((data: IEvenement[]) => {this.testEvent = data});
-    console.log(this.testEvent);
+    this.dataBD.recupererEvent().subscribe((data: bdResponseEvent) => {
+      this.testEvent = data.data
+      console.log("j'ai des données" +  this.testEvent)
+    });
+
+
+    console.log( "j'ai plus de données" + this.testEvent);
+    
     this.getEvents();
     this.donnesService.addPersonne({id: this.donnesService.getTaillePersonne(), lastname: "Jacob", firstname: "Nicolas", username: "nicojp"})
   }
