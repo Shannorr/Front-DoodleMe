@@ -49,6 +49,6 @@ export class AccueilComponent implements OnInit {
   }
 
   addFavoris(event: IEvenement){
-    this.donnesService.addFavoris({event: event, personne: this.donnesService.getPersonneInd(0)});
+    this.dataBD.ajouterFavoris(this.user.iduser, event.id);
   }
 }

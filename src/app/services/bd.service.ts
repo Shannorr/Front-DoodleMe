@@ -30,10 +30,10 @@ export class bdDataService {
   }
 
   public ajouterFavoris(idU: number, idE: number): void{
-    this.httpClient.post<bdResponseEvent>(this.url, {
+    this.httpClient.post<bdResponseEvent>(this.url + '/favoris/event/' + idU, {
           "idEvent": idE,
           "idUser": idU
-        }).subscribe(
+        }, this.httpOptions).subscribe(
       (response: bdResponseEvent) => {console.log(response);},
       (error: string) => {console.log('Erreur ajout');}
     )
