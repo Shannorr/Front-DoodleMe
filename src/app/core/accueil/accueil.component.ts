@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IEvenement} from "../../shared/evenement";
 import {PartageData} from "../../shared/bdService";
 import {ICreneau} from "../../shared/creneau";
+import {bdDataService} from "../../services/bd.service";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 @Component({
   selector: 'app-accueil',
@@ -14,14 +16,17 @@ export class AccueilComponent implements OnInit {
   filteredEvents: IEvenement[] = [];
   evenements: IEvenement[] = [];
   private _listFilter: string = "";
+  testEvent: IEvenement[] = [];
 
-  constructor(private donnesService: PartageData) {}
+  constructor(private donnesService: PartageData, private dataBD: bdDataService) {}
 
   get listFilter(): string {
     return this._listFilter;
   }
 
   ngOnInit(): void {
+    this.dataBD.recupererEvent().subscribe((data: IEvenement[]) => {this.testEvent = data});
+    console.log(this.testEvent);
     this.getEvents();
     this.donnesService.addPersonne({id: this.donnesService.getTaillePersonne(), lastname: "Jacob", firstname: "Nicolas", username: "nicojp"})
   }
