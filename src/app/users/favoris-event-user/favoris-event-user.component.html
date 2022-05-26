@@ -17,11 +17,12 @@
         </thead>
         <tbody>
         <tr *ngFor="let favoris of mesFavoris">
-          <td><a [routerLink]="['/evenements', favoris.event.id]">{{favoris.event.nom}}</a></td>
-          <td>{{favoris.event.description | lowercase}}</td>
-          <td><a [routerLink]="['/users', favoris.event.createur.id]">{{favoris.personne.username}}</a></td>
-          <td>{{favoris.event.cloture ? "Oui" : "Non"}}</td>
-          <td><button style="margin-left: 50px" [routerLink]="['/evenements', favoris.event.id]">⭐</button></td>
+          <td><a [routerLink]="['/evenements', favoris.id]">{{favoris.nom}}</a></td>
+          <td>{{favoris.description | lowercase}}</td>
+          <td *ngIf="favoris.createur.username==this.user.username"><a [routerLink]="['/users', favoris.createur.iduser]">VOUS</a></td>
+          <td *ngIf="favoris.createur.username!=this.user.username"><a [routerLink]="['/users', favoris.createur.iduser]">{{favoris.createur.username}}</a></td>
+          <td>{{favoris.cloture ? "Oui" : "Non"}}</td>
+          <td><button style="margin-left: 50px" [routerLink]="['/evenements', favoris.id]">⭐</button></td>
         </tr>
         </tbody>
       </table>

@@ -1,5 +1,5 @@
 export interface IPersonne {
-  id: number;
+  iduser: number;
   username: string;
   lastname: string;
   firstname: string;

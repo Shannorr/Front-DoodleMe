@@ -25,4 +25,18 @@ export class bdDataService {
     return this.httpClient.get<bdResponseEvent>(this.url + '/events', this.httpOptions);
   }
 
+  public recupererFavorisUser(id: number): Observable<bdResponseEvent> {
+    return this.httpClient.get<bdResponseEvent>(this.url + '/favoris/event/' + id, this.httpOptions);
+  }
+
+  public ajouterFavoris(idU: number, idE: number): void{
+    this.httpClient.post<bdResponseEvent>(this.url, {
+          "idEvent": idE,
+          "idUser": idU
+        }).subscribe(
+      (response: bdResponseEvent) => {console.log(response);},
+      (error: string) => {console.log('Erreur ajout');}
+    )
+  }
+
 }

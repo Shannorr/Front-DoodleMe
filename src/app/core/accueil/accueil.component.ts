@@ -5,6 +5,7 @@ import {ICreneau} from "../../shared/creneau";
 import {bdDataService} from "../../services/bd.service";
 import {TokenStorageService} from "../../services/token-storage.service";
 import { bdResponseEvent } from 'src/app/shared/bd';
+import {IPersonne} from "../../shared/personne";
 
 @Component({
   selector: 'app-accueil',
@@ -17,9 +18,9 @@ export class AccueilComponent implements OnInit {
   filteredEvents: IEvenement[] = [];
   evenements: IEvenement[] = [];
   private _listFilter: string = "";
-  testEvent: IEvenement[] = [];
+  user!: IPersonne;
 
-  constructor(private donnesService: PartageData, private dataBD: bdDataService) {}
+  constructor(private donnesService: PartageData, private dataBD: bdDataService, private tokenStorageService: TokenStorageService) {}
 
   get listFilter(): string {
     return this._listFilter;
@@ -27,20 +28,12 @@ export class AccueilComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataBD.recupererEvent().subscribe((data: bdResponseEvent) => {
-      this.testEvent = data.data
-      console.log("j'ai des données" +  this.testEvent)
+      this.evenements = data.data
+      this.filteredEvents = this.evenements;
+      console.log("j'ai des données" +  this.evenements)
     });
-
-
-    console.log( "j'ai plus de données" + this.testEvent);
-    
-    this.getEvents();
-    this.donnesService.addPersonne({id: this.donnesService.getTaillePersonne(), lastname: "Jacob", firstname: "Nicolas", username: "nicojp"})
-  }
-
-  getEvents(): void {
-    this.evenements = this.donnesService.getEvents();
-    this.filteredEvents = this.evenements;
+    console.log( "j'ai plus de données" + this.evenements);
+    this.user = this.tokenStorageService.getUser();
   }
 
   set listFilter(value: string) {

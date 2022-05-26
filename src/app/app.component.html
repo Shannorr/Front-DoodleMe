@@ -2,7 +2,7 @@
   <a class="navbar-brand">{{pageTitle}}</a>
   <ul class="nav nav-pills">
     <li><a class="nav-link" routerLink="/evenements" *ngIf="showUserBoard">Accueil</a></li>
-    <li><a class="nav-link" routerLink="/users/0/favoris" *ngIf="showUserBoard">Mes favoris</a></li>
+    <li><a class="nav-link" [routerLink]="['/users', this.user.iduser, 'favoris']" *ngIf="showUserBoard">Mes favoris</a></li>
     <li><a class="nav-link" routerLink="/users" *ngIf="showUserBoard">Profil</a></li>
     <li><a class="nav-link" routerLink="/connexion" *ngIf="!showUserBoard">Compte</a></li>
     <li class="nav-item"><a href class="nav-link" *ngIf="showUserBoard" (click)="logout()">LogOut</a></li>

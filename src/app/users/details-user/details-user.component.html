@@ -58,7 +58,7 @@
         <tr *ngFor="let event of eventParticipe">
           <td><a [routerLink]="['/evenements', event.creneau.evenement.id]">{{event.creneau.evenement.nom}}</a></td>
           <td>{{event.creneau.evenement.description | lowercase}}</td>
-          <td><a [routerLink]="['/users', event.creneau.evenement.createur.id]">{{event.creneau.evenement.createur.username}}</a></td>
+          <td><a [routerLink]="['/users', event.creneau.evenement.createur.iduser]">{{event.creneau.evenement.createur.username}}</a></td>
           <td>{{event.creneau.evenement.cloture ? "Oui" : "Non"}}</td>
           <td>{{event.reponse ? "✔" : "❌"}}</td>
         </tr>
