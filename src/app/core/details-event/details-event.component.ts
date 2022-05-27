@@ -3,6 +3,8 @@ import {PartageData} from "../../shared/bdService";
 import {ActivatedRoute, Router} from "@angular/router";
 import {IEvenement} from "../../shared/evenement";
 import {ICreneau} from "../../shared/creneau";
+import {bdResponseCreneau, bdResponseEvent} from "../../shared/bd";
+import {bdDataService} from "../../services/bd.service";
 
 
 @Component({
@@ -20,27 +22,32 @@ export class DetailsEventComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private donnesService: PartageData,
-              private router: Router) { }
+              private router: Router,
+              private dataBD: bdDataService) { }
 
   ngOnInit(): void {
     this.idEvent = Number(this.route.snapshot.paramMap.get('idE'));
-    if(this.idEvent >= 0){
-      this.event = this.donnesService.getEventInd(this.idEvent);
-    }
-    var i = 0;
-    while(i < this.donnesService.getTailleCreneau()){
-      if(this.donnesService.getCreneauInd(i).evenement.id == this.idEvent){
-        this.creneauxEvent.push(this.donnesService.getCreneauInd(i));
-        if(this.creneauPref == undefined){
-          this.creneauPref = this.donnesService.getCreneauInd(i);
-        }
-        else{
-          if(this.donnesService.getCreneauInd(i).nbRepPositive > this.creneauPref.nbRepPositive){
+    if(this.idEvent >= 0) {
+      this.dataBD.recupererEventById(this.idEvent).subscribe((data: bdResponseEvent) => {
+        this.event = data.data[0];
+      });
+      this.dataBD.recupererCreneauByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
+        this.creneauxEvent = data.data;
+      });
+      var i = 0;
+      while (i < this.donnesService.getTailleCreneau()) {
+        if (this.donnesService.getCreneauInd(i).evenement.id == this.idEvent) {
+          this.creneauxEvent.push(this.donnesService.getCreneauInd(i));
+          if (this.creneauPref == undefined) {
             this.creneauPref = this.donnesService.getCreneauInd(i);
+          } else {
+            if (this.donnesService.getCreneauInd(i).nbRepPositive > this.creneauPref.nbRepPositive) {
+              this.creneauPref = this.donnesService.getCreneauInd(i);
+            }
           }
         }
+        i++;
       }
-      i++;
     }
   }
 

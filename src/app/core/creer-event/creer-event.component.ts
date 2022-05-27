@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {PartageData} from "../../shared/bdService";
 import {Time} from "@angular/common";
+import {bdDataService} from "../../services/bd.service";
+import {TokenStorageService} from "../../services/token-storage.service";
+import {IPersonne} from "../../shared/personne";
 
 @Component({
   selector: 'app-creer-event',
@@ -13,27 +16,32 @@ export class CreerEventComponent implements OnInit {
   description: string = "";
   creneau1: string = "";
   creneau2: string = "";
+  user!: IPersonne;
 
-  constructor(private donnesService: PartageData) { }
+  constructor(private donnesService: PartageData, private dataBD: bdDataService, private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    this.user = this.tokenStorageService.getUser();
   }
 
   creation(): void{
-    this.donnesService.addEvent({id: this.donnesService.getTailleEvents(), nom: this.nom, description: this.description, cloture: false, createur:this.donnesService.getPersonneInd(0)});
-    if(this.creneau1 != ""){
+    let eventCre = this.dataBD.creerEvent(this.nom, this.description, this.user.iduser);
+    console.log(eventCre);
+    if(this.creneau1 != "") {
       var date = this.creneau1.split("T")[0];
       var heure = this.creneau1.split("T")[1];
-      this.donnesService.addCreneau({evenement: this.donnesService.getEventInd(this.donnesService.getTailleEvents()-1),
-        id: this.donnesService.getTailleCreneau(), date: date, heureDebut: heure, nbRepPositive: 1});
-      this.donnesService.addReponse({reponse:true, personne: this.donnesService.getPersonneInd(0), creneau:this.donnesService.getCreneauInd(this.donnesService.getTailleCreneau()-1)});
+      if(eventCre != null) {
+        //let creneau = this.dataBD.creerCreneau(date, heure, eventCre.id);
+      }
+      //ajouter réponse (user qui crée répond positivment à son creneau
     }
-    if(this.creneau2 != ""){
+    if(this.creneau2 != "") {
       var date = this.creneau2.split("T")[0];
       var heure = this.creneau2.split("T")[1];
-      this.donnesService.addCreneau({evenement: this.donnesService.getEventInd(this.donnesService.getTailleEvents()-1),
-        id: this.donnesService.getTailleCreneau(), date: date, heureDebut: heure, nbRepPositive: 1});
-      this.donnesService.addReponse({reponse:true, personne: this.donnesService.getPersonneInd(0), creneau:this.donnesService.getCreneauInd(this.donnesService.getTailleCreneau()-1)});
+      if(eventCre != null) {
+        //let creneau = this.dataBD.creerCreneau(date, heure, eventCre.id);
+      }
+      //ajouter réponse
     }
   }
 
