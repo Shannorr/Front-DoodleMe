@@ -28,7 +28,7 @@
           <th>Événement</th>
           <th>Description</th>
           <th>Clotûré</th>
-          <th>Détails</th>
+          <th>Ajouter aux favoris</th>
         </tr>
         </thead>
         <tbody>
@@ -36,7 +36,7 @@
           <td><a [routerLink]="['/evenements', event.id]">{{event.nom}}</a></td>
           <td>{{event.description | lowercase}}</td>
           <td>{{event.cloture ? "Oui" : "Non"}}</td>
-          <td><button [routerLink]="['/evenements', event.id]">Voir</button></td>
+          <td><button class="boutonSp" style="margin-left: 50px" routerLink="/evenements" (click)="addFavoris(event)">⭐</button></td>
         </tr>
         </tbody>
       </table>

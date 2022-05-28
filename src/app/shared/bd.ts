@@ -1,5 +1,6 @@
 import { IEvenement } from "./evenement";
 import {ICreneau} from "./creneau";
+import {IReponse} from "./reponse";
 
 export interface bdResponseEvent {
   msg : string;
@@ -9,4 +10,9 @@ export interface bdResponseEvent {
 export interface bdResponseCreneau {
   msg : string;
   data : ICreneau[];
+}
+
+export interface bdResponseReponse {
+  msg : string;
+  data : IReponse[];
 }

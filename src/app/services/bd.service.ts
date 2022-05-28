@@ -26,6 +26,14 @@ export class bdDataService {
     return this.httpClient.get<bdResponseEvent>(this.url + '/events', this.httpOptions);
   }
 
+  public recupererEventCreer(idU: number): Observable<bdResponseEvent> {
+    return this.httpClient.get<bdResponseEvent>(this.url + '/events/created/' + idU, this.httpOptions);
+  }
+
+  public recupererEventParticipe(idU: number): Observable<bdResponseEvent> {
+    return this.httpClient.get<bdResponseEvent>(this.url + '/users/reponse/' + idU, this.httpOptions);
+  }
+
   public recupererEventById(idE: number): Observable<bdResponseEvent> {
     return this.httpClient.get<bdResponseEvent>(this.url + '/events/' + idE, this.httpOptions);
   }
@@ -47,6 +55,16 @@ export class bdDataService {
       (error: string) => {console.log('Erreur ajout');}
     )
   }
+
+  /*public deleteFavoris(idU: number, idE: number): void{
+    this.httpClient.delete<bdResponseEvent>(this.url + '/favoris', {
+      "idUser": idU,
+      "idEvent": idE
+    }, this.httpOptions).subscribe(
+      (response: bdResponseEvent) => {console.log(response);},
+      (error: string) => {console.log('Erreur suppression');}
+    )
+  }*/
 
   public creerEvent(nom: string, description: string, idCreateur: number): void {
     this.httpClient.post<bdResponseEvent>(this.url + '/events', {
