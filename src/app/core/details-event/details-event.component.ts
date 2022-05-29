@@ -17,7 +17,7 @@ export class DetailsEventComponent implements OnInit {
   event: IEvenement | undefined;
   creneauxEvent: ICreneau[] = [];
   creneauNew: string = "";
-  idEvent: number = -1000;
+  idEvent!: number;
   creneauPref: ICreneau | undefined;
 
   constructor(private route: ActivatedRoute,
@@ -34,20 +34,9 @@ export class DetailsEventComponent implements OnInit {
       this.dataBD.recupererCreneauByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
         this.creneauxEvent = data.data;
       });
-      var i = 0;
-      while (i < this.donnesService.getTailleCreneau()) {
-        if (this.donnesService.getCreneauInd(i).evenement.id == this.idEvent) {
-          this.creneauxEvent.push(this.donnesService.getCreneauInd(i));
-          if (this.creneauPref == undefined) {
-            this.creneauPref = this.donnesService.getCreneauInd(i);
-          } else {
-            if (this.donnesService.getCreneauInd(i).nbRepPositive > this.creneauPref.nbRepPositive) {
-              this.creneauPref = this.donnesService.getCreneauInd(i);
-            }
-          }
-        }
-        i++;
-      }
+      this.dataBD.recupererCreneauPrefByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
+        this.creneauPref = data.data[0];
+      });
     }
   }
 

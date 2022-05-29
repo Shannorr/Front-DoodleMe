@@ -52,7 +52,7 @@
           <td>{{creneau.heureDebut}}</td>
           <td>{{creneau.nbRepPositive}}</td>
           <!--<td *ngIf="!creneau.evenement.cloture"><button class="espace bouton" (click)="repondreOui(creneau, index)">✔</button><button class="bouton" (click)="repondreNon(creneau)">❌</button></td>
-          --><td *ngIf="creneauPref?.id==creneau.id && !creneau.evenement.cloture"><button class="button btn-3" (click)="cloturer(creneau)" routerLink="/evenements">Clôturer</button></td>
+          --><td *ngIf="creneauPref?.id==creneau.id && !this.event.cloture"><button class="button btn-3" (click)="cloturer(creneau)" routerLink="/evenements">Clôturer</button></td>
           <td *ngIf="event.cloture && creneau.id == creneauPref?.id">✔</td>
         </tr>
         </tbody>
