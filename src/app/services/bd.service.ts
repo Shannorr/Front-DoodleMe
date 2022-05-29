@@ -30,6 +30,10 @@ export class bdDataService {
     return this.httpClient.get<bdResponseEvent>(this.url + '/events/created/' + idU, this.httpOptions);
   }
 
+  public recupererLastEventCreerByUser(idU: number): Observable<bdResponseEvent> {
+    return this.httpClient.get<bdResponseEvent>(this.url + '/events/last/' + idU, this.httpOptions);
+  }
+
   public recupererEventRepondu(idU: number): Observable<bdResponseReponse> {
     return this.httpClient.get<bdResponseReponse>(this.url + '/users/reponse/' + idU, this.httpOptions);
   }
@@ -40,6 +44,10 @@ export class bdDataService {
 
   public recupererCreneauByEventId(idE: number): Observable<bdResponseCreneau> {
     return this.httpClient.get<bdResponseCreneau>(this.url + '/creneau/' + idE, this.httpOptions);
+  }
+
+  public recupererCreneauPrefByEventId(idE: number): Observable<bdResponseCreneau> {
+    return this.httpClient.get<bdResponseCreneau>(this.url + '/creneau/winner/' + idE, this.httpOptions);
   }
 
   public recupererFavorisUser(id: number): Observable<bdResponseEvent> {
@@ -73,7 +81,7 @@ export class bdDataService {
     )
   }
 
-  public creerEvent(nom: string, description: string, idCreateur: number): void {
+  public async creerEvent(nom: string, description: string, idCreateur: number): Promise<void> {
     this.httpClient.post<bdResponseEvent>(this.url + '/events', {
       "name": nom,
       "description": description,
@@ -85,13 +93,24 @@ export class bdDataService {
     )
   }
 
-  public creerCreneau(date: string, heuredebut: string, idE: number): void{
-    this.httpClient.post<bdResponseEvent>(this.url + '/events', {
+  public async creerCreneau(date: string, heuredebut: string, idE: number): Promise<void>{
+    this.httpClient.post<bdResponseCreneau>(this.url + '/creneau', {
       "date": date,
       "heureDebut": heuredebut,
       "idEvent": idE
     }, this.httpOptions).subscribe(
-      (response: bdResponseEvent) => {console.log(response.data)},
+      (response: bdResponseCreneau) => {console.log(response.data)},
+      (error: string) => {console.log('Erreur ajout');}
+    )
+  }
+
+  public ajouterReponse(idCreneau: number, idUser: number, reponse: boolean): void{
+    this.httpClient.post<bdResponseReponse>(this.url + '/reponse', {
+      "idCreneau": idCreneau,
+      "idUser": idUser,
+      "reponse": reponse
+    }, this.httpOptions).subscribe(
+      (response: bdResponseReponse) => {console.log(response.data)},
       (error: string) => {console.log('Erreur ajout');}
     )
   }
