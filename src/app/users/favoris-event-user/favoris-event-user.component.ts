@@ -29,8 +29,10 @@ export class FavorisEventUserComponent implements OnInit {
       this.mesFavoris = data.data
       console.log("j'ai des données" +  this.mesFavoris)
     });
-    console.log( "j'ai plus de données" + this.mesFavoris);
     this.user = this.tokenStorageService.getUser();
   }
 
+  deleteFavoris(event: IEvenement){
+    this.dataBD.deleteFavoris(this.user.iduser, event.id);
+  }
 }
