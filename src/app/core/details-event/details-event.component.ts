@@ -16,9 +16,9 @@ export class DetailsEventComponent implements OnInit {
   pageTitle: string = "Détail de l'événement";
   event: IEvenement | undefined;
   creneauxEvent: ICreneau[] = [];
-  creneauNew: string = "";
   idEvent!: number;
   creneauPref: ICreneau | undefined;
+  creneauNew: string = "";
 
   constructor(private route: ActivatedRoute,
               private donnesService: PartageData,
