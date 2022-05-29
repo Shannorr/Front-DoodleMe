@@ -53,6 +53,7 @@
           <th>Clotûré</th>
           <th>Créneau</th>
           <th>Choix</th>
+          <th>Ajouter aux favoris</th>
         </tr>
         </thead>
         <tbody>
@@ -63,6 +64,7 @@
           <td>{{event.creneau.evenement.cloture ? "Oui" : "Non"}}</td>
           <td>{{event.creneau.date}} - {{event.creneau.heureDebut}}</td>
           <td>{{event.reponse ? "✔" : "❌"}}</td>
+          <td><button class="boutonSp" style="margin-left: 50px" routerLink="/evenements" (click)="addFavoris(event.creneau.evenement)">⭐</button></td>
         </tr>
         </tbody>
       </table>
