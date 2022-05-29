@@ -30,7 +30,13 @@ export class AccueilComponent implements OnInit {
     this.dataBD.recupererEvent().subscribe((data: bdResponseEvent) => {
       this.evenements = data.data
       this.filteredEvents = this.evenements;
+
+      // console.log("j'ai des données" +  this.evenements)
     });
+    // console.log( "j'ai plus de données" + this.evenements);
+
+    });
+
     this.user = this.tokenStorageService.getUser();
   }
 

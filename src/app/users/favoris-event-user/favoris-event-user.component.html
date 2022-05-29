@@ -22,7 +22,7 @@
           <td *ngIf="favoris.createur.username==this.user.username"><a>VOUS</a></td>
           <td *ngIf="favoris.createur.username!=this.user.username"><a>{{favoris.createur.username}}</a></td>
           <td>{{favoris.cloture ? "Oui" : "Non"}}</td>
-          <td><button class="boutonSp" style="margin-left: 50px" [routerLink]="['/evenements', favoris.id]">⭐</button></td>
+          <td><button class="boutonSp" style="margin-left: 50px" routerLink="/evenements" (click)="deleteFavoris(favoris)">⭐</button></td>
         </tr>
         </tbody>
       </table>

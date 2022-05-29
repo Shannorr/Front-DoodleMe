@@ -64,15 +64,22 @@ export class bdDataService {
     )
   }
 
-  /*public deleteFavoris(idU: number, idE: number): void{
-    this.httpClient.delete<bdResponseEvent>(this.url + '/favoris', {
-      "idUser": idU,
-      "idEvent": idE
-    }, this.httpOptions).subscribe(
+  public deleteFavoris(idU: number, idE: number): void{
+    const options = {
+      body : {
+        "idUser": idU,
+        "idEvent": idE
+      },
+      headers : {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    this.httpClient.request<bdResponseEvent>('delete',this.url + '/favoris', options).subscribe(
       (response: bdResponseEvent) => {console.log(response);},
       (error: string) => {console.log('Erreur suppression');}
     )
-  }*/
+  }
 
   public async creerEvent(nom: string, description: string, idCreateur: number): Promise<void> {
     this.httpClient.post<bdResponseEvent>(this.url + '/events', {
