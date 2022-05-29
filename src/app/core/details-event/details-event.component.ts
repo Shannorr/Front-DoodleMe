@@ -51,7 +51,7 @@ export class DetailsEventComponent implements OnInit {
     }
   }
 
-  creerNewCreneau(): void{
+  /*creerNewCreneau(): void{
     if(this.creneauNew != ""){
       var date = this.creneauNew.split("T")[0];
       var heure = this.creneauNew.split("T")[1];
@@ -75,7 +75,7 @@ export class DetailsEventComponent implements OnInit {
 
   repondreNon(creneau: ICreneau): void{
     this.donnesService.addReponse({creneau: creneau, reponse: false, personne: this.donnesService.getPersonneInd(0)});
-  }
+  }*/
 
   cloturer(creneau: ICreneau): void{
     this.donnesService.clotureEvent(creneau);

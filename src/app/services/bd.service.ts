@@ -4,7 +4,7 @@ import {IEvenement} from "../shared/evenement";
 // @ts-ignore
 import {Head, Observable} from "rxjs";
 import {TokenStorageService} from "./token-storage.service";
-import {bdResponseCreneau, bdResponseEvent} from '../shared/bd';
+import {bdResponseCreneau, bdResponseEvent, bdResponseReponse} from '../shared/bd';
 import {ICreneau} from "../shared/creneau";
 
 @Injectable({
@@ -30,8 +30,8 @@ export class bdDataService {
     return this.httpClient.get<bdResponseEvent>(this.url + '/events/created/' + idU, this.httpOptions);
   }
 
-  public recupererEventParticipe(idU: number): Observable<bdResponseEvent> {
-    return this.httpClient.get<bdResponseEvent>(this.url + '/users/reponse/' + idU, this.httpOptions);
+  public recupererEventRepondu(idU: number): Observable<bdResponseReponse> {
+    return this.httpClient.get<bdResponseReponse>(this.url + '/users/reponse/' + idU, this.httpOptions);
   }
 
   public recupererEventById(idE: number): Observable<bdResponseEvent> {

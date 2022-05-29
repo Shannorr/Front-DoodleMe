@@ -25,22 +25,17 @@ export class CreerEventComponent implements OnInit {
   }
 
   creation(): void{
-    let eventCre = this.dataBD.creerEvent(this.nom, this.description, this.user.iduser);
-    console.log(eventCre);
+    this.dataBD.creerEvent(this.nom, this.description, this.user.iduser);
     if(this.creneau1 != "") {
       var date = this.creneau1.split("T")[0];
       var heure = this.creneau1.split("T")[1];
-      if(eventCre != null) {
-        //let creneau = this.dataBD.creerCreneau(date, heure, eventCre.id);
-      }
+      //let creneau = this.dataBD.creerCreneau(date, heure, eventCre.id);
       //ajouter réponse (user qui crée répond positivment à son creneau
     }
     if(this.creneau2 != "") {
       var date = this.creneau2.split("T")[0];
       var heure = this.creneau2.split("T")[1];
-      if(eventCre != null) {
-        //let creneau = this.dataBD.creerCreneau(date, heure, eventCre.id);
-      }
+      //let creneau = this.dataBD.creerCreneau(date, heure, eventCre.id);
       //ajouter réponse
     }
   }

@@ -5,7 +5,7 @@ import {IPersonne} from "../../shared/personne";
 import {IEvenement} from "../../shared/evenement";
 import {IReponse} from "../../shared/reponse";
 import { TokenStorageService } from 'src/app/services/token-storage.service';
-import {bdResponseEvent} from "../../shared/bd";
+import {bdResponseEvent, bdResponseReponse} from "../../shared/bd";
 import {bdDataService} from "../../services/bd.service";
 
 @Component({
@@ -28,9 +28,9 @@ export class DetailsUserComponent implements OnInit {
       this.eventCree = data.data
     });
 
-    /*this.dataBD.recupererEventParticipe(this.personne.iduser).subscribe((data: bdResponseEvent) => {
+    this.dataBD.recupererEventRepondu(this.personne.iduser).subscribe((data: bdResponseReponse) => {
       this.eventParticipe = data.data
-    });*/
+    });
   }
 
   addFavoris(event: IEvenement){
