@@ -5,6 +5,8 @@ import {IEvenement} from "../../shared/evenement";
 import {ICreneau} from "../../shared/creneau";
 import {bdResponseCreneau, bdResponseEvent} from "../../shared/bd";
 import {bdDataService} from "../../services/bd.service";
+import {IPersonne} from "../../shared/personne";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 
 @Component({
@@ -14,16 +16,19 @@ import {bdDataService} from "../../services/bd.service";
 })
 export class DetailsEventComponent implements OnInit {
   pageTitle: string = "Détail de l'événement";
-  event: IEvenement | undefined;
+  event!: IEvenement;
   creneauxEvent: ICreneau[] = [];
   idEvent!: number;
-  creneauPref: ICreneau | undefined;
+  creneauPref!: ICreneau[];
+  nbRepMax!: number;
   creneauNew: string = "";
+  user!: IPersonne;
 
   constructor(private route: ActivatedRoute,
               private donnesService: PartageData,
               private router: Router,
-              private dataBD: bdDataService) { }
+              private dataBD: bdDataService,
+              private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     this.idEvent = Number(this.route.snapshot.paramMap.get('idE'));
@@ -35,38 +40,61 @@ export class DetailsEventComponent implements OnInit {
         this.creneauxEvent = data.data;
       });
       this.dataBD.recupererCreneauPrefByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
-        this.creneauPref = data.data[0];
+        this.creneauPref = data.data;
+        this.nbRepMax = this.creneauPref[0].nbRepPositive;
       });
     }
+    this.user = this.tokenStorageService.getUser();
   }
 
-  /*creerNewCreneau(): void{
+  async creerNewCreneau(): Promise<void>{
     if(this.creneauNew != ""){
       var date = this.creneauNew.split("T")[0];
       var heure = this.creneauNew.split("T")[1];
-      this.donnesService.addCreneau({evenement: this.donnesService.getEventInd(this.idEvent),
-        id: this.donnesService.getTailleCreneau(), date: date, heureDebut: heure, nbRepPositive: 1});
-      this.creneauxEvent.push(this.donnesService.getCreneauInd(this.donnesService.getTailleCreneau()-1));
-      this.donnesService.addReponse({creneau: this.donnesService.getCreneauInd(this.donnesService.getTailleCreneau()-1), reponse: true,
-        personne: this.donnesService.getPersonneInd(0)});
+      await this.dataBD.creerCreneau(date, heure, this.event.id);
+
+      var creneau: ICreneau;
+      await this.dataBD.recupererCreneauByEventId(this.event.id).subscribe(async (data: bdResponseCreneau) => {
+        this.creneauxEvent = data.data;
+        console.log(data.data);
+        let i = 0;
+        while (i < this.creneauxEvent.length) {
+          console.log(this.creneauxEvent[i].heureDebut, heure);
+          console.log(this.creneauxEvent[i].heureDebut == heure);
+          if (this.creneauxEvent[i].heureDebut == heure && this.creneauxEvent[i].date == date) {
+            creneau = this.creneauxEvent[i];
+            await this.dataBD.ajouterReponse(creneau.id, this.user.iduser, true);
+          }
+          i++;
+        }
+      });
     }
+    this.dataBD.recupererCreneauByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
+      this.creneauxEvent = data.data;
+    });
   }
 
-  repondreOui(creneau: ICreneau, index: number): void{
-    this.donnesService.addReponse({creneau: creneau, reponse: true, personne: this.donnesService.getPersonneInd(0)});
-    this.creneauxEvent[index].nbRepPositive++;
-    if(this.creneauPref != undefined){
-      if(this.donnesService.getCreneauInd(creneau.id).nbRepPositive > this.creneauPref.nbRepPositive){
-        this.creneauPref = this.donnesService.getCreneauInd(creneau.id);
-      }
-    }
+  async repondreOui(creneau: ICreneau): Promise<void> {
+    await this.dataBD.ajouterReponse(creneau.id, this.user.iduser, true);
+    this.dataBD.recupererCreneauPrefByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
+      this.creneauPref = data.data;
+      this.nbRepMax = this.creneauPref[0].nbRepPositive;
+    });
+    this.router.navigate(['/evenements']);
   }
 
-  repondreNon(creneau: ICreneau): void{
-    this.donnesService.addReponse({creneau: creneau, reponse: false, personne: this.donnesService.getPersonneInd(0)});
-  }*/
+  async repondreNon(creneau: ICreneau): Promise<void> {
+    await this.dataBD.ajouterReponse(creneau.id, this.user.iduser, false);
+    this.dataBD.recupererCreneauPrefByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
+      this.creneauPref = data.data;
+      this.nbRepMax = this.creneauPref[0].nbRepPositive;
+    });
+    this.router.navigate(['/evenements']);
+  }
 
-  cloturer(creneau: ICreneau): void{
-    this.donnesService.clotureEvent(creneau);
+  async cloturer(creneau: ICreneau): Promise<void> {
+    await this.dataBD.clotureEvent(creneau.evenement.id);
+    //passer creneau a true;
+    this.router.navigate(['/evenements']);
   }
 }

@@ -4,7 +4,7 @@ import {IEvenement} from "../shared/evenement";
 // @ts-ignore
 import {Head, Observable} from "rxjs";
 import {TokenStorageService} from "./token-storage.service";
-import {bdResponseCreneau, bdResponseEvent, bdResponseReponse} from '../shared/bd';
+import {bdResponseCloture, bdResponseCreneau, bdResponseEvent, bdResponseReponse} from '../shared/bd';
 import {ICreneau} from "../shared/creneau";
 
 @Injectable({
@@ -82,7 +82,7 @@ export class bdDataService {
   }
 
   public async creerEvent(nom: string, description: string, idCreateur: number): Promise<void> {
-    this.httpClient.post<bdResponseEvent>(this.url + '/events', {
+    await this.httpClient.post<bdResponseEvent>(this.url + '/events', {
       "name": nom,
       "description": description,
       "cloture": false,
@@ -94,7 +94,7 @@ export class bdDataService {
   }
 
   public async creerCreneau(date: string, heuredebut: string, idE: number): Promise<void>{
-    this.httpClient.post<bdResponseCreneau>(this.url + '/creneau', {
+    await this.httpClient.post<bdResponseCreneau>(this.url + '/creneau', {
       "date": date,
       "heureDebut": heuredebut,
       "idEvent": idE
@@ -104,8 +104,8 @@ export class bdDataService {
     )
   }
 
-  public ajouterReponse(idCreneau: number, idUser: number, reponse: boolean): void{
-    this.httpClient.post<bdResponseReponse>(this.url + '/reponse', {
+  public async ajouterReponse(idCreneau: number, idUser: number, reponse: boolean): Promise<void>{
+    await this.httpClient.post<bdResponseReponse>(this.url + '/reponse', {
       "idCreneau": idCreneau,
       "idUser": idUser,
       "reponse": reponse
@@ -115,4 +115,16 @@ export class bdDataService {
     )
   }
 
+  public async clotureEvent(idE: number): Promise<void> {
+    const options = {
+      headers : {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    await this.httpClient.request<bdResponseCloture>('patch', this.url + '/events/' + idE, options).subscribe(
+      (response: bdResponseCloture) => {console.log(response.msg);},
+      (error: string) => {console.log('Erreur cloture');}
+    )
+  }
 }

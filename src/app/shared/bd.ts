@@ -16,3 +16,7 @@ export interface bdResponseReponse {
   msg : string;
   data : IReponse[];
 }
+
+export interface bdResponseCloture {
+  msg : string;
+}
