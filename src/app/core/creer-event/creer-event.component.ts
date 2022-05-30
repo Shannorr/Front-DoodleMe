@@ -7,6 +7,7 @@ import {IPersonne} from "../../shared/personne";
 import {bdResponseCreneau, bdResponseEvent} from "../../shared/bd";
 import {IEvenement} from "../../shared/evenement";
 import {ICreneau} from "../../shared/creneau";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-creer-event',
@@ -21,28 +22,36 @@ export class CreerEventComponent implements OnInit {
   creneau2: string = "";
   user!: IPersonne;
 
-  constructor(private donnesService: PartageData, private dataBD: bdDataService, private tokenStorageService: TokenStorageService) { }
+  constructor(private donnesService: PartageData, private dataBD: bdDataService,
+              private tokenStorageService: TokenStorageService, private router: Router) { }
 
   ngOnInit(): void {
     this.user = this.tokenStorageService.getUser();
   }
 
   async creation(): Promise<void> {
-    await this.dataBD.creerEvent(this.nom, this.description, this.user.iduser);
-    var eventCree: IEvenement;
-    this.dataBD.recupererLastEventCreerByUser(this.user.iduser).subscribe(async (data: bdResponseEvent) => {
-      eventCree = data.data[0];
-      if (this.creneau1 != "") {
-        var date1 = this.creneau1.split("T")[0];
-        var heure1 = this.creneau1.split("T")[1];
-        await this.dataBD.creerCreneau(date1, heure1, eventCree.id);
-      }
 
-      if (this.creneau2 != "") {
-        var date2 = this.creneau2.split("T")[0];
-        var heure2 = this.creneau2.split("T")[1];
-        await this.dataBD.creerCreneau(date2, heure2, eventCree.id);
-      }
-    });
+    const tabCreneau : any[] = [];
+
+    if (this.creneau1 != "") {
+      var date1 = this.creneau1.split("T")[0];
+      var heure1 = this.creneau1.split("T")[1];
+      tabCreneau.push({
+        date: date1 ,
+        heureDebut: heure1
+      })
+    }
+
+    if (this.creneau2 != "") {
+      var date2 = this.creneau2.split("T")[0];
+      var heure2 = this.creneau2.split("T")[1];
+      tabCreneau.push({
+        date: date2 ,
+        heureDebut: heure2
+      })
+    }
+
+    await this.dataBD.creerEvent(this.nom, this.description, this.user.iduser, tabCreneau);
+    this.router.navigate(['/evenements']);
   }
 }

@@ -95,12 +95,13 @@ export class bdDataService {
     )
   }
 
-  public async creerEvent(nom: string, description: string, idCreateur: number): Promise<void> {
+  public async creerEvent(nom: string, description: string, idCreateur: number, creneau: any[]): Promise<void> {
     await this.httpClient.post<bdResponseEvent>(this.url + '/events', {
       "name": nom,
       "description": description,
       "cloture": false,
-      "idcreator": idCreateur
+      "idcreator": idCreateur,
+      "creneauTab": creneau
     }, this.httpOptions).subscribe(
       (response: bdResponseEvent) => {console.log(response.data)},
       (error: string) => {console.log('Erreur ajout');}
