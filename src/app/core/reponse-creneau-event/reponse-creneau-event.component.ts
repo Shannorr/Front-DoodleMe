@@ -5,8 +5,9 @@ import {bdDataService} from "../../services/bd.service";
 import {TokenStorageService} from "../../services/token-storage.service";
 import {IEvenement} from "../../shared/evenement";
 import {ICreneau} from "../../shared/creneau";
-import {bdResponseEvent, bdResponsePersonne} from "../../shared/bd";
+import {bdResponseCreneau, bdResponseEvent, bdResponsePersonne} from "../../shared/bd";
 import {IPersonne} from "../../shared/personne";
+import {IReponseUser} from "../../shared/userReponse";
 
 @Component({
   selector: 'app-reponse-creneau-event',
@@ -17,12 +18,11 @@ export class ReponseCreneauEventComponent implements OnInit {
   pageTitle: string = "Détail des réponses du créneau";
   event!: IEvenement;
   creneau!: ICreneau;
-  userReponse: IPersonne[] = [];
+  userReponse: IReponseUser[] = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private dataBD: bdDataService,
-              private tokenStorageService: TokenStorageService) { }
+              private dataBD: bdDataService) { }
 
   ngOnInit(): void {
     const idE = Number(this.route.snapshot.paramMap.get('idE'));
@@ -32,10 +32,14 @@ export class ReponseCreneauEventComponent implements OnInit {
         this.event = data.data[0];
       });
     }
-    //recup créneau
     if(idC >= 0){
+      this.dataBD.recupCreneauById(idC).subscribe((data: bdResponseCreneau) => {
+        this.creneau = data.data[0];
+      });
       this.dataBD.recupererUserRepondantCreneau(idC).subscribe((data: bdResponsePersonne) => {
         this.userReponse = data.data;
+        console.log(this.userReponse, data);
+        console.log(data.data);
       });
     }
   }

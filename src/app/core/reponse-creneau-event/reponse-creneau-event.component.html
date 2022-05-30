@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    {{pageTitle + " : " + event?.nom}}
+    {{pageTitle + " : " + creneau?.date + " - " + creneau?.heureDebut}}
   </div>
   <div class='card-body' *ngIf='event'>
     <div class='row'>
@@ -21,6 +21,18 @@
           <div class='col-md-4'>Cloturé :</div>
           <div class='col-md-8'>{{event.cloture ? "Oui" : "Non"}}</div>
         </div>
+        <div class='row'>
+          <div class='col-md-4'>Date :</div>
+          <div class='col-md-8'>{{creneau?.date}}</div>
+        </div>
+        <div class='row'>
+          <div class='col-md-4'>Heure de début :</div>
+          <div class='col-md-8'>{{creneau?.heureDebut}}</div>
+        </div>
+        <div class='row'>
+          <div class='col-md-4'>Nombre de participants :</div>
+          <div class='col-md-8'>{{creneau?.nbRepPositive}}</div>
+        </div>
       </div>
     </div>
     <br>
@@ -38,10 +50,10 @@
         </thead>
         <tbody>
         <tr *ngFor="let personne of userReponse">
-          <td>{{personne.username}}</td>
-          <td>{{personne.firstname}}</td>
-          <td>{{personne.lastname}}</td>
-          <td>---</td>
+          <td>{{personne.personne.username}}</td>
+          <td>{{personne.personne.firstname}}</td>
+          <td>{{personne.personne.lastname}}</td>
+          <td>{{personne.reponse ? "✔" : "❌"}}</td>
         </tr>
         </tbody>
       </table>
@@ -53,3 +65,4 @@
     </button>
   </div>
 </div>
+

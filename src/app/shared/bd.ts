@@ -2,6 +2,7 @@ import { IEvenement } from "./evenement";
 import {ICreneau} from "./creneau";
 import {IReponse} from "./reponse";
 import {IPersonne} from "./personne";
+import {IReponseUser} from "./userReponse";
 
 export interface bdResponseEvent {
   msg : string;
@@ -20,7 +21,7 @@ export interface bdResponseReponse {
 
 export interface bdResponsePersonne {
   msg : string;
-  data : IPersonne[];
+  data : IReponseUser[];
 }
 
 export interface bdResponseCloture {

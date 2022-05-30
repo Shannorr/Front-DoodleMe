@@ -64,6 +64,10 @@ export class bdDataService {
     return this.httpClient.get<bdResponsePersonne>(this.url + '/users/creneau/' + idC, this.httpOptions);
   }
 
+  public recupCreneauById(idC: number): Observable<bdResponseCreneau> {
+    return this.httpClient.get<bdResponseCreneau>(this.url + '/creneau/creneau/' + idC, this.httpOptions);
+  }
+
   public ajouterFavoris(idU: number, idE: number): void{
     this.httpClient.post<bdResponseEvent>(this.url + '/favoris', {
           "idEvent": idE,
