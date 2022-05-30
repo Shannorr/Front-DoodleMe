@@ -22,7 +22,7 @@
           <div class='col-md-8'>{{event.cloture ? "Oui" : "Non"}}</div>
         </div>
       </div>
-      <div class='col-md-4 alignLeft' *ngIf="!event.cloture">
+      <div class='col-md-4 alignLeft' *ngIf="!event.cloture && this.user.iduser==this.event.createur.iduser">
         <div class='row'>
           <div class='col-md'>Proposer un nouveau créneau :</div>
           <div class="input-group mb-3">
@@ -41,16 +41,18 @@
           <th>Date</th>
           <th>Heure</th>
           <th>Nombres de participants</th>
+          <th>Voir les réponses</th>
           <th *ngIf="!event.cloture">Répondre</th>
           <th *ngIf="!event.cloture">Préféré</th>
           <th *ngIf="event.cloture">Choix</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let creneau of creneauxEvent ; let index = index">
+        <tr *ngFor="let creneau of creneauxEvent">
           <td>{{creneau.date}}</td>
           <td>{{creneau.heureDebut}}</td>
           <td>{{creneau.nbRepPositive}}</td>
+          <td><button class="bouton" (click)="reponseCreneau(creneau)">➡</button></td>
           <td *ngIf="!creneau.evenement.cloture"><button class="espace bouton" (click)="repondreOui(creneau)">✔</button><button class="bouton" (click)="repondreNon(creneau)">❌</button></td>
           <td *ngIf="this.creneauPref!=undefined && this.creneauPref.length==1 && this.nbRepMax==creneau.nbRepPositive && !this.event.cloture && this.user.iduser==this.event.createur.iduser"><button class="button btn-3" (click)="cloturer(creneau)" routerLink="/evenements">Clôturer</button></td>
           <td *ngIf="event.cloture && this.nbRepMax==creneau.nbRepPositive">✔</td>

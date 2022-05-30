@@ -43,3 +43,10 @@
 .boutonSp{
   border-radius: 5px;
 }
+
+.boutonUser{
+  border-style : none;
+  border-left-style : none;
+  border-radius: 5px;
+
+}

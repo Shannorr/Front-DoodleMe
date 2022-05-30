@@ -7,6 +7,7 @@ import {CreerEventComponent} from "./core/creer-event/creer-event.component";
 import {DetailsEventComponent} from "./core/details-event/details-event.component";
 import {DetailsUserComponent} from "./users/details-user/details-user.component";
 import {FavorisEventUserComponent} from "./users/favoris-event-user/favoris-event-user.component";
+import {ReponseCreneauEventComponent} from "./core/reponse-creneau-event/reponse-creneau-event.component";
 
 const routes: Routes = [
   {path: 'connexion', component: LoginComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'users/:idU/favoris', component: FavorisEventUserComponent},
   {path: 'evenements/creation', component: CreerEventComponent},
   {path: 'evenements/:idE', component: DetailsEventComponent},
+  {path: 'evenements/:idE/creneaux/:idC', component: ReponseCreneauEventComponent},
   {path: '', redirectTo: "connexion", pathMatch: "full" },
   {path: "**", redirectTo: "connexion", pathMatch: "full" }
 ];

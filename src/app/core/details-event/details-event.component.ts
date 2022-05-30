@@ -56,22 +56,9 @@ export class DetailsEventComponent implements OnInit {
       var creneau: ICreneau;
       await this.dataBD.recupererCreneauByEventId(this.event.id).subscribe(async (data: bdResponseCreneau) => {
         this.creneauxEvent = data.data;
-        console.log(data.data);
-        let i = 0;
-        while (i < this.creneauxEvent.length) {
-          console.log(this.creneauxEvent[i].heureDebut, heure);
-          console.log(this.creneauxEvent[i].heureDebut == heure);
-          if (this.creneauxEvent[i].heureDebut == heure && this.creneauxEvent[i].date == date) {
-            creneau = this.creneauxEvent[i];
-            await this.dataBD.ajouterReponse(creneau.id, this.user.iduser, true);
-          }
-          i++;
-        }
       });
     }
-    this.dataBD.recupererCreneauByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
-      this.creneauxEvent = data.data;
-    });
+    this.router.navigate(['/evenements']);
   }
 
   async repondreOui(creneau: ICreneau): Promise<void> {
@@ -96,5 +83,9 @@ export class DetailsEventComponent implements OnInit {
     await this.dataBD.clotureEvent(creneau.evenement.id);
     //passer creneau a true;
     this.router.navigate(['/evenements']);
+  }
+
+  reponseCreneau(c: ICreneau): void{
+    this.router.navigate(['/evenements/' + c.evenement.id + '/creneaux/' + c.id])
   }
 }

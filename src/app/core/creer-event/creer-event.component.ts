@@ -36,24 +36,12 @@ export class CreerEventComponent implements OnInit {
         var date1 = this.creneau1.split("T")[0];
         var heure1 = this.creneau1.split("T")[1];
         await this.dataBD.creerCreneau(date1, heure1, eventCree.id);
-
-        var creneauUn: ICreneau;
-        this.dataBD.recupererCreneauByEventId(eventCree.id).subscribe((data: bdResponseCreneau) => {
-          creneauUn = data.data[0];
-          this.dataBD.ajouterReponse(creneauUn.id, this.user.iduser, true);
-        });
       }
 
       if (this.creneau2 != "") {
         var date2 = this.creneau2.split("T")[0];
         var heure2 = this.creneau2.split("T")[1];
         await this.dataBD.creerCreneau(date2, heure2, eventCree.id);
-
-        var creneauDeux: ICreneau;
-        this.dataBD.recupererCreneauByEventId(eventCree.id).subscribe((data: bdResponseCreneau) => {
-          creneauDeux = data.data[1];
-          this.dataBD.ajouterReponse(creneauDeux.id, this.user.iduser, true);
-        });
       }
     });
   }
