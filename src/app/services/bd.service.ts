@@ -4,7 +4,13 @@ import {IEvenement} from "../shared/evenement";
 // @ts-ignore
 import {Head, Observable} from "rxjs";
 import {TokenStorageService} from "./token-storage.service";
-import {bdResponseCloture, bdResponseCreneau, bdResponseEvent, bdResponseReponse} from '../shared/bd';
+import {
+  bdResponseCloture,
+  bdResponseCreneau,
+  bdResponseEvent,
+  bdResponsePersonne,
+  bdResponseReponse
+} from '../shared/bd';
 import {ICreneau} from "../shared/creneau";
 
 @Injectable({
@@ -52,6 +58,10 @@ export class bdDataService {
 
   public recupererFavorisUser(id: number): Observable<bdResponseEvent> {
     return this.httpClient.get<bdResponseEvent>(this.url + '/favoris/event/' + id, this.httpOptions);
+  }
+
+  public recupererUserRepondantCreneau(idC: number): Observable<bdResponsePersonne> {
+    return this.httpClient.get<bdResponsePersonne>(this.url + '/users/creneau/' + idC, this.httpOptions);
   }
 
   public ajouterFavoris(idU: number, idE: number): void{
