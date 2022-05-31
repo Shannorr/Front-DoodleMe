@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {IEvenement} from "../shared/evenement";
 // @ts-ignore
-import {Head, Observable} from "rxjs";
+import {catchError, Head, Observable, throwError} from "rxjs";
 import {TokenStorageService} from "./token-storage.service";
 import {
   bdResponseCloture,
@@ -11,7 +11,9 @@ import {
   bdResponsePersonne,
   bdResponseReponse
 } from '../shared/bd';
-import {ICreneau} from "../shared/creneau";
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,7 @@ export class bdDataService {
     })
   };
 
-  constructor(private httpClient: HttpClient, private tokenStorageService: TokenStorageService) { }
+  constructor(private httpClient: HttpClient, private tokenStorageService: TokenStorageService, private router: Router) { }
 
   public recupererEvent(): Observable<bdResponseEvent> {
     return this.httpClient.get<bdResponseEvent>(this.url + '/events', this.httpOptions);
@@ -73,9 +75,81 @@ export class bdDataService {
           "idEvent": idE,
           "idUser": idU
         }, this.httpOptions).subscribe(
-      (response: bdResponseEvent) => {console.log(response);},
-      (error: string) => {console.log('Erreur ajout');}
+      (response: bdResponseEvent) => {
+        this.popupAjoutFavoris("Favoris est ajouté");
+      },
+      (error: HttpErrorResponse) => {this.handleError(error, "Le favoris")}
     )
+  }
+
+  private popupAjoutFavoris(message : string) {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: message,
+      width: 300,
+      showConfirmButton: false,
+      timer: 1500,
+      backdrop: `
+          rgba(0,0,123,0.4)
+          url("../../assets/img/oiseau.gif")
+          left top
+          no-repeat
+        `
+    })
+  }
+
+  private popupDeleteFavoris(message : string) {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: message,
+      width: 300,
+      showConfirmButton: false,
+      timer: 1500,
+      backdrop: `
+          rgba(0,0,123,0.4)
+          url("../../assets/img/smiley.gif")
+          left top
+          no-repeat
+        `
+    })
+  }
+
+  private handleError(error: HttpErrorResponse, message: String) {
+    if (error.status === 304) {
+      // A client-side or network error occurred. Handle it accordingly.
+      Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: message + ' a déjà été ajouté',
+        width: 300,
+        showConfirmButton: false,
+        timer: 1700,
+        backdrop: `
+          rgba(0,0,123,0.4)
+          url("../../assets/img/spiderman.gif")
+          left top
+          no-repeat
+        `
+      })
+    }else if (error.status === 401) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: message,
+        width: 300,
+        showConfirmButton: false,
+        timer: 1000
+      })
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
   public deleteFavoris(idU: number, idE: number): void{
@@ -90,7 +164,7 @@ export class bdDataService {
       }
     }
     this.httpClient.request<bdResponseEvent>('delete',this.url + '/favoris', options).subscribe(
-      (response: bdResponseEvent) => {console.log(response);},
+      (response: bdResponseEvent) => {this.popupDeleteFavoris("Le favoris a été supprimer")},
       (error: string) => {console.log('Erreur suppression');}
     )
   }
@@ -103,9 +177,16 @@ export class bdDataService {
       "idcreator": idCreateur,
       "creneauTab": creneau
     }, this.httpOptions).subscribe(
-      (response: bdResponseEvent) => {console.log(response.data)},
-      (error: string) => {console.log('Erreur ajout');}
+      (response: bdResponseEvent) => {
+        this.reloadPage ();
+        this.router.navigate(['/evenements']);},
+      (error: HttpErrorResponse) => {this.handleError(error, "Le nom event est déjà utilisé");}
     )
+  }
+  reloadPage() {
+    setTimeout(()=>{
+      window.location.reload();
+    }, 100);
   }
 
   public async creerCreneau(date: string, heuredebut: string, idE: number): Promise<void>{

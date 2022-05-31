@@ -8,6 +8,7 @@ import {bdResponseCreneau, bdResponseEvent} from "../../shared/bd";
 import {IEvenement} from "../../shared/evenement";
 import {ICreneau} from "../../shared/creneau";
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-creer-event',
@@ -30,28 +31,45 @@ export class CreerEventComponent implements OnInit {
   }
 
   async creation(): Promise<void> {
-
-    const tabCreneau : any[] = [];
-
-    if (this.creneau1 != "") {
-      var date1 = this.creneau1.split("T")[0];
-      var heure1 = this.creneau1.split("T")[1];
-      tabCreneau.push({
-        date: date1 ,
-        heureDebut: heure1
+    if (this.nom === "") {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: "Remplissez le champ nom !",
+        width: 300,
+        showConfirmButton: false,
+        timer: 1000
       })
-    }
+    } else {
+      const tabCreneau : any[] = [];
 
-    if (this.creneau2 != "") {
-      var date2 = this.creneau2.split("T")[0];
-      var heure2 = this.creneau2.split("T")[1];
-      tabCreneau.push({
-        date: date2 ,
-        heureDebut: heure2
-      })
-    }
+      if (this.creneau1 != "") {
+        var date1 = this.creneau1.split("T")[0];
+        var heure1 = this.creneau1.split("T")[1];
+        tabCreneau.push({
+          date: date1 ,
+          heureDebut: heure1
+        })
+      }
 
-    await this.dataBD.creerEvent(this.nom, this.description, this.user.iduser, tabCreneau);
-    this.router.navigate(['/evenements']);
+      if (this.creneau2 != "") {
+        var date2 = this.creneau2.split("T")[0];
+        var heure2 = this.creneau2.split("T")[1];
+        tabCreneau.push({
+          date: date2 ,
+          heureDebut: heure2
+        })
+      }
+
+      const res = await this.dataBD.creerEvent(this.nom, this.description, this.user.iduser, tabCreneau);
+
+    }
   }
+
+  reloadPage() {
+    setTimeout(()=>{
+      window.location.reload();
+    }, 100);
+  }
+
 }

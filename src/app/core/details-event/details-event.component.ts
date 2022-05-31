@@ -67,7 +67,8 @@ export class DetailsEventComponent implements OnInit {
       this.creneauPref = data.data;
       this.nbRepMax = this.creneauPref[0].nbRepPositive;
     });
-    this.router.navigate(['/evenements']);
+    this.reloadPage();
+    this.router.navigate(['/evenements/' + this.idEvent]);
   }
 
   async repondreNon(creneau: ICreneau): Promise<void> {
@@ -76,7 +77,8 @@ export class DetailsEventComponent implements OnInit {
       this.creneauPref = data.data;
       this.nbRepMax = this.creneauPref[0].nbRepPositive;
     });
-    this.router.navigate(['/evenements']);
+    this.reloadPage();
+    this.router.navigate(['/evenements/'+ this.idEvent]);
   }
 
   async cloturer(creneau: ICreneau): Promise<void> {
@@ -87,5 +89,11 @@ export class DetailsEventComponent implements OnInit {
 
   reponseCreneau(c: ICreneau): void{
     this.router.navigate(['/evenements/' + c.evenement.id + '/creneaux/' + c.id])
+  }
+
+  reloadPage() {
+    setTimeout(()=>{
+      window.location.reload();
+    }, 1);
   }
 }

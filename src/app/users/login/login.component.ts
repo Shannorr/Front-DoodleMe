@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.reloadPage();
+        this.router.navigate(["/evenements"]);
       },
       err => {
         this.errorMessage = err.error.message;
@@ -55,7 +56,9 @@ export class LoginComponent implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    setTimeout(()=>{
+      window.location.reload();
+    }, 100);
   }
 
 

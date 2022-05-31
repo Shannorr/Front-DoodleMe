@@ -6,6 +6,7 @@ import {bdDataService} from "../../services/bd.service";
 import {TokenStorageService} from "../../services/token-storage.service";
 import { bdResponseEvent } from 'src/app/shared/bd';
 import {IPersonne} from "../../shared/personne";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-accueil',
