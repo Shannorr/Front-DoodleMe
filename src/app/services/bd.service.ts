@@ -109,7 +109,7 @@ export class bdDataService {
       timer: 1500,
       backdrop: `
           rgba(0,0,123,0.4)
-          url("../../assets/img/smiley.gif")
+          url("../../assets/img/luffy.gif")
           left top
           no-repeat
         `
