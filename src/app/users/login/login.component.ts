@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -60,7 +61,11 @@ export class LoginComponent implements OnInit {
       window.location.reload();
     }, 100);
   }
-
+  reloadPageM() {
+    setTimeout(()=>{
+      window.location.reload();
+    }, 1000);
+  }
 
 
   goNext(): void {
@@ -77,8 +82,16 @@ export class LoginComponent implements OnInit {
       data => {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        this.reloadPage();
+        this.reloadPageM();
         this.router.navigate(["/connexion"]);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: "Utilisateur créer avec success",
+          width: 300,
+          showConfirmButton: false,
+          timer: 1500
+        })
       },
       err => {
         this.errorMessage = err.error.message;
