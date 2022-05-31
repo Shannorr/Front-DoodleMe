@@ -77,6 +77,8 @@ export class LoginComponent implements OnInit {
       data => {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+        this.reloadPage();
+        this.router.navigate(["/connexion"]);
       },
       err => {
         this.errorMessage = err.error.message;
