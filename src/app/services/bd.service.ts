@@ -110,7 +110,7 @@ export class bdDataService {
       backdrop: `
           rgba(0,0,123,0.4)
           url("../../assets/img/luffy.gif")
-          left top
+          center top
           no-repeat
         `
     })
