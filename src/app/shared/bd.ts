@@ -1,9 +1,9 @@
 import { IEvenement } from "./evenement";
 import {ICreneau} from "./creneau";
 import {IReponse} from "./reponse";
-import {IPersonne} from "./personne";
 import {IReponseUser} from "./userReponse";
 
+//interface utilisées pour les réponses du back
 export interface bdResponseEvent {
   msg : string;
   data : IEvenement[];

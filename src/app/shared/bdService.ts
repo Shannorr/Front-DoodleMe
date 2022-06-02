@@ -5,6 +5,7 @@ import {ICreneau} from "./creneau";
 import {IReponse} from "./reponse";
 import {IFavoris} from "./favoris";
 
+// ce service a été utilisé au départ pour faire des tests, il n'est plus utilisé maintenant.
 @Injectable({
   providedIn: "root"
 })

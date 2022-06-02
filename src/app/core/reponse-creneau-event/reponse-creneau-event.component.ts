@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {PartageData} from "../../shared/bdService";
 import {bdDataService} from "../../services/bd.service";
-import {TokenStorageService} from "../../services/token-storage.service";
 import {IEvenement} from "../../shared/evenement";
 import {ICreneau} from "../../shared/creneau";
 import {bdResponseCreneau, bdResponseEvent, bdResponsePersonne} from "../../shared/bd";
-import {IPersonne} from "../../shared/personne";
 import {IReponseUser} from "../../shared/userReponse";
 
 @Component({
@@ -24,6 +21,9 @@ export class ReponseCreneauEventComponent implements OnInit {
               private router: Router,
               private dataBD: bdDataService) { }
 
+  /*récupération de l'id de l'event et l'id du créneau
+  Puis récupération info de l'event et du créneau et des personnes ayant répondu au créneau
+  */
   ngOnInit(): void {
     const idE = Number(this.route.snapshot.paramMap.get('idE'));
     const idC = Number(this.route.snapshot.paramMap.get('idC'));

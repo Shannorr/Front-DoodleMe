@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {PartageData} from "../../shared/bdService";
 import {IPersonne} from "../../shared/personne";
 import {IEvenement} from "../../shared/evenement";
 import {IReponse} from "../../shared/reponse";
@@ -21,6 +20,7 @@ export class DetailsUserComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private tokenStorageService: TokenStorageService, private dataBD: bdDataService) { }
 
+  //récuperation de l'user connecté, des événements qu'il a créé et des événements auxquels il a répondu
   ngOnInit(): void {
     this.personne = this.tokenStorageService.getUser();
 

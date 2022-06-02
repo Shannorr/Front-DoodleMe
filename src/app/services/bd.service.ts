@@ -1,19 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {IEvenement} from "../shared/evenement";
 // @ts-ignore
 import {catchError, Head, Observable, throwError} from "rxjs";
 import {TokenStorageService} from "./token-storage.service";
-import {
-  bdResponseCloture,
-  bdResponseCreneau,
-  bdResponseEvent,
-  bdResponsePersonne,
-  bdResponseReponse
-} from '../shared/bd';
+import {bdResponseCloture, bdResponseCreneau, bdResponseEvent, bdResponsePersonne, bdResponseReponse} from '../shared/bd';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +16,7 @@ export class bdDataService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.token}` //on donne le token dans toutes nos requêtes sinon l'action est refusée
     })
   };
 
@@ -76,10 +68,84 @@ export class bdDataService {
           "idUser": idU
         }, this.httpOptions).subscribe(
       (response: bdResponseEvent) => {
-        this.popupAjoutFavoris("Favoris est ajouté");
+        this.popupAjoutFavoris("Favoris est ajouté"); //pop up qui s'affiche lors de l'ajout en favoris
       },
       (error: HttpErrorResponse) => {this.handleError(error, "Le favoris")}
     )
+  }
+
+  public deleteFavoris(idU: number, idE: number): void{
+    const options = {
+      body : {
+        "idUser": idU,
+        "idEvent": idE
+      },
+      headers : {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    this.httpClient.request<bdResponseEvent>('delete',this.url + '/favoris', options).subscribe(
+      (response: bdResponseEvent) => {this.popupDeleteFavoris("Le favoris a été supprimé")},
+      (error: string) => {console.log('Erreur suppression');}
+    )
+  }
+
+  public async creerEvent(nom: string, description: string, idCreateur: number, creneau: any[]): Promise<void> {
+    await this.httpClient.post<bdResponseEvent>(this.url + '/events', {
+      "name": nom,
+      "description": description,
+      "cloture": false,
+      "idcreator": idCreateur,
+      "creneauTab": creneau
+    }, this.httpOptions).subscribe(
+      (response: bdResponseEvent) => {
+        this.reloadPage ();
+        this.router.navigate(['/evenements']);},
+      (error: HttpErrorResponse) => {this.handleError(error, "Le nom event est déjà utilisé");}
+    )
+  }
+
+  public async creerCreneau(date: string, heuredebut: string, idE: number): Promise<void>{
+    await this.httpClient.post<bdResponseCreneau>(this.url + '/creneau', {
+      "date": date,
+      "heureDebut": heuredebut,
+      "idEvent": idE
+    }, this.httpOptions).subscribe(
+      (response: bdResponseCreneau) => {console.log(response.data)},
+      (error: string) => {console.log('Erreur ajout');}
+    )
+  }
+
+  public async ajouterReponse(idCreneau: number, idUser: number, reponse: boolean): Promise<void>{
+    await this.httpClient.post<bdResponseReponse>(this.url + '/reponse', {
+      "idCreneau": idCreneau,
+      "idUser": idUser,
+      "reponse": reponse
+    }, this.httpOptions).subscribe(
+      (response: bdResponseReponse) => {console.log(response.data)},
+      (error: string) => {console.log('Erreur ajout');}
+    )
+  }
+
+  public async clotureEvent(idE: number): Promise<void> {
+    const options = {
+      headers : {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    await this.httpClient.request<bdResponseCloture>('patch', this.url + '/events/' + idE, options).subscribe(
+      (response: bdResponseCloture) => {console.log(response.msg);},
+      (error: string) => {console.log('Erreur cloture');}
+    )
+  }
+
+  //pour recharger la page lors d'une création d'event par exemple
+  reloadPage() {
+    setTimeout(()=>{
+      window.location.reload();
+    }, 100);
   }
 
   private popupAjoutFavoris(message : string) {
@@ -151,76 +217,5 @@ export class bdDataService {
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
-
-  public deleteFavoris(idU: number, idE: number): void{
-    const options = {
-      body : {
-        "idUser": idU,
-        "idEvent": idE
-      },
-      headers : {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    this.httpClient.request<bdResponseEvent>('delete',this.url + '/favoris', options).subscribe(
-      (response: bdResponseEvent) => {this.popupDeleteFavoris("Le favoris a été supprimé")},
-      (error: string) => {console.log('Erreur suppression');}
-    )
-  }
-
-  public async creerEvent(nom: string, description: string, idCreateur: number, creneau: any[]): Promise<void> {
-    await this.httpClient.post<bdResponseEvent>(this.url + '/events', {
-      "name": nom,
-      "description": description,
-      "cloture": false,
-      "idcreator": idCreateur,
-      "creneauTab": creneau
-    }, this.httpOptions).subscribe(
-      (response: bdResponseEvent) => {
-        this.reloadPage ();
-        this.router.navigate(['/evenements']);},
-      (error: HttpErrorResponse) => {this.handleError(error, "Le nom event est déjà utilisé");}
-    )
-  }
-  reloadPage() {
-    setTimeout(()=>{
-      window.location.reload();
-    }, 100);
-  }
-
-  public async creerCreneau(date: string, heuredebut: string, idE: number): Promise<void>{
-    await this.httpClient.post<bdResponseCreneau>(this.url + '/creneau', {
-      "date": date,
-      "heureDebut": heuredebut,
-      "idEvent": idE
-    }, this.httpOptions).subscribe(
-      (response: bdResponseCreneau) => {console.log(response.data)},
-      (error: string) => {console.log('Erreur ajout');}
-    )
-  }
-
-  public async ajouterReponse(idCreneau: number, idUser: number, reponse: boolean): Promise<void>{
-    await this.httpClient.post<bdResponseReponse>(this.url + '/reponse', {
-      "idCreneau": idCreneau,
-      "idUser": idUser,
-      "reponse": reponse
-    }, this.httpOptions).subscribe(
-      (response: bdResponseReponse) => {console.log(response.data)},
-      (error: string) => {console.log('Erreur ajout');}
-    )
-  }
-
-  public async clotureEvent(idE: number): Promise<void> {
-    const options = {
-      headers : {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    await this.httpClient.request<bdResponseCloture>('patch', this.url + '/events/' + idE, options).subscribe(
-      (response: bdResponseCloture) => {console.log(response.msg);},
-      (error: string) => {console.log('Erreur cloture');}
-    )
-  }
 }
+

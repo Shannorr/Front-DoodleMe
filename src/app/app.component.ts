@@ -13,7 +13,9 @@ export class AppComponent {
   isLoggedIn = false;
   showUserBoard = false;
   username?: string;
+
   constructor(private tokenStorageService: TokenStorageService) { }
+
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
@@ -23,6 +25,7 @@ export class AppComponent {
     }
     this.user = this.tokenStorageService.getUser();
   }
+
   logout(): void {
     this.tokenStorageService.signOut();
     window.location.reload();

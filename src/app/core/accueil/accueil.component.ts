@@ -1,12 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IEvenement} from "../../shared/evenement";
 import {PartageData} from "../../shared/bdService";
-import {ICreneau} from "../../shared/creneau";
 import {bdDataService} from "../../services/bd.service";
 import {TokenStorageService} from "../../services/token-storage.service";
 import { bdResponseEvent } from 'src/app/shared/bd';
 import {IPersonne} from "../../shared/personne";
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-accueil',
@@ -27,16 +25,16 @@ export class AccueilComponent implements OnInit {
     return this._listFilter;
   }
 
+  //récupération de tous les événements et de l'utilisateur connecté
   ngOnInit(): void {
     this.dataBD.recupererEvent().subscribe((data: bdResponseEvent) => {
       this.evenements = data.data
       this.filteredEvents = this.evenements;
-      // console.log("j'ai des données" +  this.evenements)
     });
-    // console.log( "j'ai plus de données" + this.evenements);
     this.user = this.tokenStorageService.getUser();
   }
 
+  //les deux fonction pour gérer la barre de recherche
   set listFilter(value: string) {
     this._listFilter = value;
     console.log("In setter:", value);

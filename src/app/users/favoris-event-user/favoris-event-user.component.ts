@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IFavoris} from "../../shared/favoris";
 import {ActivatedRoute} from "@angular/router";
-import {PartageData} from "../../shared/bdService";
 import {bdDataService} from "../../services/bd.service";
 import {bdResponseEvent} from "../../shared/bd";
 import {IEvenement} from "../../shared/evenement";
@@ -19,10 +17,10 @@ export class FavorisEventUserComponent implements OnInit {
   mesFavoris: IEvenement[] = [];
 
   constructor(private route: ActivatedRoute,
-              private donnesService: PartageData,
               private dataBD: bdDataService,
               private tokenStorageService: TokenStorageService) { }
 
+  //recuperation de l'id de l'user dans l'url et des favoris de cet user
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('idU'));
     this.dataBD.recupererFavorisUser(id).subscribe((data: bdResponseEvent) => {

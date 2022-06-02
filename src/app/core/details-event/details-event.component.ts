@@ -30,6 +30,9 @@ export class DetailsEventComponent implements OnInit {
               private dataBD: bdDataService,
               private tokenStorageService: TokenStorageService) { }
 
+  /*récupération de l'id de l'event et ses informations
+  Puis récupération des créneaux de l'event ainsi que le créneau ayant le plus de participants
+   */
   ngOnInit(): void {
     this.idEvent = Number(this.route.snapshot.paramMap.get('idE'));
     if(this.idEvent >= 0) {
@@ -47,6 +50,7 @@ export class DetailsEventComponent implements OnInit {
     this.user = this.tokenStorageService.getUser();
   }
 
+  //création d'un nouveau créneau puis récupération de tous les créneaux de l'event
   async creerNewCreneau(): Promise<void>{
     if(this.creneauNew != ""){
       var date = this.creneauNew.split("T")[0];
@@ -61,6 +65,7 @@ export class DetailsEventComponent implements OnInit {
     this.router.navigate(['/evenements']);
   }
 
+  //répondre oui à un créneau et récupération du créneau ayant le plus de participants à la suite de cette nouvelle réponse
   async repondreOui(creneau: ICreneau): Promise<void> {
     await this.dataBD.ajouterReponse(creneau.id, this.user.iduser, true);
     this.dataBD.recupererCreneauPrefByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
@@ -71,6 +76,7 @@ export class DetailsEventComponent implements OnInit {
     this.router.navigate(['/evenements/' + this.idEvent]);
   }
 
+  //répondre non à un créneau et récupération du créneau ayant le plus de participants à la suite de cette nouvelle réponse
   async repondreNon(creneau: ICreneau): Promise<void> {
     await this.dataBD.ajouterReponse(creneau.id, this.user.iduser, false);
     this.dataBD.recupererCreneauPrefByEventId(this.idEvent).subscribe((data: bdResponseCreneau) => {
@@ -83,7 +89,6 @@ export class DetailsEventComponent implements OnInit {
 
   async cloturer(creneau: ICreneau): Promise<void> {
     await this.dataBD.clotureEvent(creneau.evenement.id);
-    //passer creneau a true;
     this.router.navigate(['/evenements']);
   }
 

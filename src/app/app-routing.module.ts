@@ -9,6 +9,7 @@ import {DetailsUserComponent} from "./users/details-user/details-user.component"
 import {FavorisEventUserComponent} from "./users/favoris-event-user/favoris-event-user.component";
 import {ReponseCreneauEventComponent} from "./core/reponse-creneau-event/reponse-creneau-event.component";
 
+//définition de toutes les routes de notre application
 const routes: Routes = [
   {path: 'connexion', component: LoginComponent},
   {path: 'presentation', component: PresentationComponent},
