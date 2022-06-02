@@ -164,7 +164,7 @@ export class bdDataService {
       }
     }
     this.httpClient.request<bdResponseEvent>('delete',this.url + '/favoris', options).subscribe(
-      (response: bdResponseEvent) => {this.popupDeleteFavoris("Le favoris a été supprimer")},
+      (response: bdResponseEvent) => {this.popupDeleteFavoris("Le favoris a été supprimé")},
       (error: string) => {console.log('Erreur suppression');}
     )
   }
