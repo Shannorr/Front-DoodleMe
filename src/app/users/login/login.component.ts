@@ -32,12 +32,15 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthService, private tokenStorage: TokenStorageService) { }
 
+  // regarde si l'utilisateur est connecter
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
     }
   }
 
+  // effectue la connexion envoie au back les informations pour se connecter
+  // et le back lui renvoie ces identifiants et sont token d'auth.
   onSubmitLogin(): void {
     const { username, password } = this.formLogin;
     this.authService.login(username, password).subscribe(
@@ -56,6 +59,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  // fonctions me permettant de refresh une page pdt un certains temps
   reloadPage() {
     setTimeout(()=>{
       window.location.reload();
@@ -75,6 +79,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  // envoie les informations d'inscription et renvoie une notif si l'inscription à réussi
   onSubmitRegister(): void {
     console.log(this.formRegister)
     const { username, lastname, firstname, password } = this.formRegister;
